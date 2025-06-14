@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#121212">
+    <title>CHP - Configurador de Planes Web</title>
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+    <link rel="stylesheet" href="styles.css" media="print" onload="this.media='all'">
+    <link rel="preload" href="logo.png" as="image">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Configura tu Plan Personalizado</h1>
+            <p class="subtitle">Selecciona las características que deseas incluir en tu propia página web. Cada opción tiene un costo base. Los datos se enviarán automáticamente al administrador.</p>
+        </header>
+        
+        <div class="plan-builder">
+            <section class="options-section">
+                <div class="compact-controls">
+                    <button id="toggle-view" class="compact-btn" aria-label="Alternar vista">
+                        <i class="fas fa-th-large" aria-hidden="true"></i> Vista de Cuadrícula
+                    </button>
+                    <button id="reset-options" class="compact-btn" aria-label="Reiniciar opciones">
+                        <i class="fas fa-undo" aria-hidden="true"></i> Reiniciar
+                    </button>
+                </div>
+                
+                <div class="options-container" id="options-container" role="region" aria-live="polite">
+                    <!-- Las opciones se generarán dinámicamente con JavaScript -->
+                </div>
+            </section>
+            
+            <section class="summary-section">
+                <div class="summary-card">
+                    <h2 class="section-title"><i class="fas fa-file-invoice-dollar" aria-hidden="true"></i> Resumen</h2>
+                    
+                    <div class="total-price" id="total-price" aria-live="polite">$0 CUP</div>
+                    
+                    <div class="selected-options" id="selected-options" role="region" aria-live="polite">
+                        <!-- Las opciones seleccionadas se generarán dinámicamente -->
+                    </div>
+                    
+                    <div class="payment-info">
+                        <p><i class="fas fa-info-circle" aria-hidden="true"></i> El pago se realizará a través de la App Transfermóvil en la sección: MiTransfer, al número +53 50369270. Envía el comprobante por WhatsApp para activar tu servicio en las próximas 48 horas.</p>
+                    </div>
+                    
+                    <form id="client-form" class="client-form">
+                        <div class="form-group">
+                            <label for="client-name"><i class="fas fa-user" aria-hidden="true"></i> Nombre Completo</label>
+                            <input type="text" id="client-name" required placeholder="Ej: Juan Pérez" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ ]+" title="Solo letras y espacios">
+                        </div>
+                        <div class="form-group">
+                            <label for="client-phone"><i class="fas fa-phone" aria-hidden="true"></i> Teléfono</label>
+                            <input type="tel" id="client-phone" required placeholder="Ej: 55512345" pattern="[0-9]{8}" title="8 dígitos numéricos">
+                        </div>
+                        <div class="form-group">
+                            <label for="client-email"><i class="fas fa-envelope" aria-hidden="true"></i> Correo Electrónico (opcional)</label>
+                            <input type="email" id="client-email" placeholder="Ej: usuario@ejemplo.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="affiliate"><i class="fas fa-users" aria-hidden="true"></i> Afiliado (opcional)</label>
+                            <input type="text" id="affiliate" placeholder="¿Quién te refirió?">
+                        </div>
+                    </form>
+                    
+                    <div class="action-buttons">
+                        <button id="whatsapp-btn" class="action-btn whatsapp" aria-label="Enviar por WhatsApp">
+                            <i class="fab fa-whatsapp" aria-hidden="true"></i> Enviar al Administrador
+                        </button>
+                        <button id="sms-btn" class="action-btn sms" aria-label="Enviar por SMS">
+                            <i class="fas fa-sms" aria-hidden="true"></i> Enviar por SMS
+                        </button>
+                        <button id="copy-btn" class="action-btn copy" aria-label="Copiar resumen">
+                            <i class="fas fa-copy" aria-hidden="true"></i> Copiar Resumen
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <div id="notification" class="notification hidden" role="alert" aria-live="assertive"></div>
+    
+    <script src="script.js" defer></script>
+</body>
+</html>
