@@ -3,14 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#121212">
+    <link rel="icon" type="image/png" sizes="50x50" href="logo.png">
+    <link rel="shortcut icon" href="logo.png" type="image/x-icon">
+    <meta name="theme-color" content="#ffffff">
     <title>CHP - Configurador de Planes Web</title>
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
-    <link rel="stylesheet" href="styles.css" media="print" onload="this.media='all'">
-    <link rel="preload" href="logo.png" as="image">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <canvas id="particlesCanvas"></canvas>
+    
+    <div class="container holographic-effect">
+        <!-- Logo CBO -->
+        <img src="logo.png" alt="CBO" width="50" height="50" loading="eager">
+    </div>
+    
     <div class="container">
         <header>
             <h1>Configura tu Plan Personalizado</h1>
@@ -20,61 +27,64 @@
         <div class="plan-builder">
             <section class="options-section">
                 <div class="compact-controls">
-                    <button id="toggle-view" class="compact-btn" aria-label="Alternar vista">
-                        <i class="fas fa-th-large" aria-hidden="true"></i> Vista de Cuadrícula
+                    <button id="toggle-view" class="compact-btn">
+                        <i class="fas fa-th-large"></i> Vista de Cuadrícula
                     </button>
-                    <button id="reset-options" class="compact-btn" aria-label="Reiniciar opciones">
-                        <i class="fas fa-undo" aria-hidden="true"></i> Reiniciar
+                    <button id="reset-options" class="compact-btn">
+                        <i class="fas fa-undo"></i> Reiniciar
                     </button>
                 </div>
                 
-                <div class="options-container" id="options-container" role="region" aria-live="polite">
+                <div class="options-container">
                     <!-- Las opciones se generarán dinámicamente con JavaScript -->
                 </div>
             </section>
             
             <section class="summary-section">
+                <div class="holographic-effect"></div>
+                <div class="holographic-effect"></div>
+                
                 <div class="summary-card">
-                    <h2 class="section-title"><i class="fas fa-file-invoice-dollar" aria-hidden="true"></i> Resumen</h2>
+                    <h2 class="section-title"><i class="fas fa-file-invoice-dollar"></i> Resumen</h2>
                     
-                    <div class="total-price" id="total-price" aria-live="polite">$0 CUP</div>
+                    <div class="total-price">$0 CUP</div>
                     
-                    <div class="selected-options" id="selected-options" role="region" aria-live="polite">
+                    <div class="selected-options">
                         <!-- Las opciones seleccionadas se generarán dinámicamente -->
                     </div>
                     
                     <div class="payment-info">
-                        <p><i class="fas fa-info-circle" aria-hidden="true"></i> El pago se realizará a través de la App Transfermóvil en la sección: MiTransfer, al número +53 50369270. Envía el comprobante por WhatsApp para activar tu servicio en las próximas 48 horas.</p>
+                        <p><i class="fas fa-info-circle"></i> El pago se realizará a través de la App Transfermóvil en la sección: MiTransfer, al número +53 50369270. Envía el comprobante por WhatsApp para activar tu servicio en las próximas 48 horas.</p>
                     </div>
                     
                     <form id="client-form" class="client-form">
                         <div class="form-group">
-                            <label for="client-name"><i class="fas fa-user" aria-hidden="true"></i> Nombre Completo</label>
+                            <label for="client-name"><i class="fas fa-user"></i> Nombre Completo</label>
                             <input type="text" id="client-name" required placeholder="Ej: Juan Pérez" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ ]+" title="Solo letras y espacios">
                         </div>
                         <div class="form-group">
-                            <label for="client-phone"><i class="fas fa-phone" aria-hidden="true"></i> Teléfono</label>
+                            <label for="client-phone"><i class="fas fa-phone"></i> Teléfono</label>
                             <input type="tel" id="client-phone" required placeholder="Ej: 55512345" pattern="[0-9]{8}" title="8 dígitos numéricos">
                         </div>
                         <div class="form-group">
-                            <label for="client-email"><i class="fas fa-envelope" aria-hidden="true"></i> Correo Electrónico (opcional)</label>
+                            <label for="client-email"><i class="fas fa-envelope"></i> Correo Electrónico (opcional)</label>
                             <input type="email" id="client-email" placeholder="Ej: usuario@ejemplo.com">
                         </div>
                         <div class="form-group">
-                            <label for="affiliate"><i class="fas fa-users" aria-hidden="true"></i> Afiliado (opcional)</label>
+                            <label for="affiliate"><i class="fas fa-users"></i> Afiliado (opcional)</label>
                             <input type="text" id="affiliate" placeholder="¿Quién te refirió?">
                         </div>
                     </form>
                     
                     <div class="action-buttons">
-                        <button id="whatsapp-btn" class="action-btn whatsapp" aria-label="Enviar por WhatsApp">
-                            <i class="fab fa-whatsapp" aria-hidden="true"></i> Enviar al Administrador
+                        <button id="whatsapp-btn" class="action-btn whatsapp">
+                            <i class="fab fa-whatsapp"></i> Enviar al Administrador
                         </button>
-                        <button id="sms-btn" class="action-btn sms" aria-label="Enviar por SMS">
-                            <i class="fas fa-sms" aria-hidden="true"></i> Enviar por SMS
+                        <button id="sms-btn" class="action-btn sms">
+                            <i class="fas fa-sms"></i> Enviar por SMS
                         </button>
-                        <button id="copy-btn" class="action-btn copy" aria-label="Copiar resumen">
-                            <i class="fas fa-copy" aria-hidden="true"></i> Copiar Resumen
+                        <button id="copy-btn" class="action-btn copy">
+                            <i class="fas fa-copy"></i> Copiar Resumen
                         </button>
                     </div>
                 </div>
@@ -82,8 +92,10 @@
         </div>
     </div>
     
-    <div id="notification" class="notification hidden" role="alert" aria-live="assertive"></div>
+    <div id="notification" class="notification hidden">
+        <div class="notification-content"></div>
+    </div>
     
-    <script src="script.js" defer></script>
+    <script src="script.js"></script>
 </body>
 </html>
