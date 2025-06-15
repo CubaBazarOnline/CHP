@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Datos de configuración completos
+    // Datos de configuración mejorados
     const planOptions = {
         'Interfaz': {
             icon: 'paint-brush',
             options: [
                 { name: 'Básica', price: 100, desc: 'Diseño limpio y simple' },
                 { name: 'Profesional', price: 200, desc: 'Diseño intuitivo con elementos personalizados' },
-                { name: 'Tecnologico', price: 400, desc: 'Diseño 3D futuristas y experiencia unica' }
+                { name: 'Tecnológico', price: 400, desc: 'Diseño 3D futurista y experiencia única' }
             ]
         },
         'Subdominio': {
@@ -18,9 +18,9 @@ document.addEventListener('DOMContentLoaded', function() {
         'Soporte': {
             icon: 'headset',
             options: [
-                { name: 'Gmail', price: 0, desc: 'Soporte por correo electrónico, las respuestas pueden tardar dias' },
-                { name: '12/7', price: 100, desc: 'Soporte por whatsapp 12 horas, de lunes a viernes' },
-                { name: '24/7', price: 200, desc: 'Soporte prioritario por whatsapp 24 horas, todos los días' }
+                { name: 'Gmail', price: 0, desc: 'Soporte por correo electrónico, respuesta en días' },
+                { name: '12/7', price: 100, desc: 'Soporte por WhatsApp 12 horas, de lunes a viernes' },
+                { name: '24/7', price: 200, desc: 'Soporte prioritario por WhatsApp 24/7' }
             ]
         },
         'Duración': {
@@ -29,14 +29,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 { name: '7 Días', price: 50, desc: 'Prueba corta para evaluar el servicio' },
                 { name: '15 Días', price: 100, desc: 'Para proyectos a corto plazo' },
                 { name: '30 Días', price: 200, desc: 'Plan mensual estándar' },
-                { name: '1 Año', price: 2000, desc: 'Ahorras mas a largo plazo' }
+                { name: '1 Año', price: 2000, desc: 'Ahorras más a largo plazo' }
             ]
         },
         'Marca de Agua': {
             icon: 'water',
             options: [
-                { name: 'Sin Marca', price: 100, desc: 'Sin marca de agua, de la empresa CBO en tu sitio' },
-                { name: 'Marca Visible', price: 0, desc: 'Marca de agua visible, de la empresa CBO' }
+                { name: 'Sin Marca', price: 100, desc: 'Sin marca de agua de la empresa CBO' },
+                { name: 'Marca Visible', price: 0, desc: 'Marca de agua visible de la empresa CBO' }
             ]
         },
         'Versión Móvil': {
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
             icon: 'sync',
             options: [
                 { name: 'Sin Actualizaciones', price: 0, desc: 'Sin cambios futuros' },
-                { name: 'Actualizaciones Básicas', price: 200, desc: 'Una actualizacion o modificacion al mes, (solo cambios pequeños)' },
+                { name: 'Actualizaciones Básicas', price: 200, desc: 'Una actualización o modificación al mes (cambios pequeños)' },
             ]
         },
         'Productos/Servicios': {
@@ -73,18 +73,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // Estado de la aplicación
-    let appState = {
+    // Estado de la aplicación mejorado
+    const appState = {
         compactView: true,
         selectedOptions: {},
         formData: {
             name: '',
             phone: '',
+            email: '',
             affiliate: ''
-        }
+        },
+        collapsedCategories: []
     };
 
-    // Elementos del DOM
+    // Elementos del DOM con mejor selección
     const domElements = {
         optionsContainer: document.querySelector('.options-container'),
         selectedOptionsContainer: document.querySelector('.selected-options'),
@@ -95,7 +97,11 @@ document.addEventListener('DOMContentLoaded', function() {
         whatsappBtn: document.getElementById('whatsapp-btn'),
         smsBtn: document.getElementById('sms-btn'),
         copyBtn: document.getElementById('copy-btn'),
-        notification: document.getElementById('notification')
+        notification: document.getElementById('notification'),
+        clientNameInput: document.getElementById('client-name'),
+        clientPhoneInput: document.getElementById('client-phone'),
+        clientEmailInput: document.getElementById('client-email'),
+        affiliateInput: document.getElementById('affiliate')
     };
 
     // Inicializar la aplicación
@@ -103,25 +109,36 @@ document.addEventListener('DOMContentLoaded', function() {
         renderOptions();
         setupEventListeners();
         loadFromLocalStorage();
+        setupAccessibility();
     }
 
-    // Renderizar las opciones del plan
+    // Renderizar las opciones del plan con mejor estructura
     function renderOptions() {
         let html = '';
         
         for (const [category, data] of Object.entries(planOptions)) {
+            const isCollapsed = appState.compactView && appState.collapsedCategories.includes(category);
+            
             html += `
                 <div class="option-category ${appState.compactView ? 'compact' : ''}">
-                    <h3 class="category-title ${appState.compactView ? 'collapsed' : ''}">
-                        <i class="fas fa-${data.icon}"></i> ${category}
+                    <h3 class="category-title ${isCollapsed ? 'collapsed' : ''}" 
+                        data-category="${category}"
+                        aria-expanded="${!isCollapsed}"
+                        aria-controls="options-${category.replace(/\s+/g, '-').toLowerCase()}">
+                        <i class="fas fa-${data.icon}" aria-hidden="true"></i> ${category}
                     </h3>
-                    <div class="options-${appState.compactView ? 'list' : 'grid'}">
+                    <div id="options-${category.replace(/\s+/g, '-').toLowerCase()}" 
+                         class="options-${appState.compactView ? 'list' : 'grid'}" 
+                         ${isCollapsed ? 'hidden' : ''}>
                         ${data.options.map(option => `
                             <div class="option-${appState.compactView ? 'item' : 'card'} 
                                 ${appState.selectedOptions[category]?.name === option.name ? 'selected' : ''}" 
                                 data-category="${category}" 
                                 data-name="${option.name}" 
-                                data-price="${option.price}">
+                                data-price="${option.price}"
+                                role="button"
+                                tabindex="0"
+                                aria-label="Seleccionar ${option.name} por $${option.price} CUP">
                                 ${appState.compactView ? `
                                     <div class="option-item-content">
                                         <div class="option-item-main">
@@ -146,21 +163,34 @@ document.addEventListener('DOMContentLoaded', function() {
         updateSelectedOptionsSummary();
     }
 
-    // Configurar event listeners
+    // Configurar event listeners mejorados
     function setupEventListeners() {
         // Toggle vista compacta
         domElements.toggleViewBtn.addEventListener('click', toggleViewMode);
+        domElements.toggleViewBtn.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') toggleViewMode();
+        });
         
         // Reiniciar opciones
         domElements.resetOptionsBtn.addEventListener('click', resetOptions);
+        domElements.resetOptionsBtn.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') resetOptions();
+        });
         
-        // Selección de opciones (delegación de eventos)
-        domElements.optionsContainer.addEventListener('click', function(e) {
-            const optionElement = e.target.closest('.option-item, .option-card');
-            if (optionElement) {
-                selectOption(optionElement);
+        // Selección de opciones (delegación de eventos mejorada)
+        domElements.optionsContainer.addEventListener('click', handleOptionSelection);
+        domElements.optionsContainer.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                const optionElement = e.target.closest('.option-item, .option-card');
+                if (optionElement) {
+                    e.preventDefault();
+                    selectOption(optionElement);
+                }
             }
-            
+        });
+        
+        // Colapso de categorías
+        domElements.optionsContainer.addEventListener('click', (e) => {
             const categoryTitle = e.target.closest('.category-title');
             if (categoryTitle) {
                 toggleCategoryCollapse(categoryTitle);
@@ -168,30 +198,72 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // Formulario de cliente
-        domElements.clientForm.addEventListener('input', function(e) {
-            if (e.target.id === 'client-name') {
-                appState.formData.name = e.target.value;
-            } else if (e.target.id === 'client-phone') {
-                appState.formData.phone = e.target.value;
-            } else if (e.target.id === 'affiliate') {
-                appState.formData.affiliate = e.target.value;
-            }
-            saveToLocalStorage();
-        });
+        domElements.clientForm.addEventListener('input', handleFormInput);
         
         // Botones de acción
         domElements.whatsappBtn.addEventListener('click', () => sendViaWhatsApp('+5350369270'));
+        domElements.whatsappBtn.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') sendViaWhatsApp('+5350369270');
+        });
+        
         domElements.smsBtn.addEventListener('click', () => sendViaSMS('+5350369270'));
+        domElements.smsBtn.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') sendViaSMS('+5350369270');
+        });
+        
         domElements.copyBtn.addEventListener('click', copySummary);
+        domElements.copyBtn.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') copySummary();
+        });
+    }
+
+    // Configurar accesibilidad
+    function setupAccessibility() {
+        // Asegurar que los elementos interactivos sean accesibles por teclado
+        document.querySelectorAll('.option-item, .option-card').forEach(item => {
+            item.setAttribute('tabindex', '0');
+            item.setAttribute('role', 'button');
+        });
+        
+        // Mejorar el manejo de focus
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                // Asegurar que el focus sea visible
+                document.documentElement.classList.add('keyboard-focus');
+            }
+        });
+        
+        document.addEventListener('mousedown', () => {
+            document.documentElement.classList.remove('keyboard-focus');
+        });
+    }
+
+    // Manejar selección de opciones
+    function handleOptionSelection(e) {
+        const optionElement = e.target.closest('.option-item, .option-card');
+        if (optionElement) {
+            selectOption(optionElement);
+        }
+    }
+
+    // Manejar entrada del formulario
+    function handleFormInput(e) {
+        const { id, value } = e.target;
+        if (id in appState.formData) {
+            appState.formData[id] = value;
+            saveToLocalStorage();
+        }
     }
 
     // Alternar entre vista de listado y grid
     function toggleViewMode() {
         appState.compactView = !appState.compactView;
         domElements.toggleViewBtn.innerHTML = `
-            <i class="fas fa-${appState.compactView ? 'th-large' : 'list'}"></i> 
+            <i class="fas fa-${appState.compactView ? 'th-large' : 'list'}" aria-hidden="true"></i> 
             ${appState.compactView ? 'Vista de Cuadrícula' : 'Vista de Listado'}
         `;
+        domElements.toggleViewBtn.setAttribute('aria-label', 
+            appState.compactView ? 'Cambiar a vista de cuadrícula' : 'Cambiar a vista de listado');
         renderOptions();
         saveToLocalStorage();
     }
@@ -200,13 +272,29 @@ document.addEventListener('DOMContentLoaded', function() {
     function toggleCategoryCollapse(categoryTitle) {
         if (!appState.compactView) return;
         
-        categoryTitle.classList.toggle('collapsed');
-        const optionsContainer = categoryTitle.nextElementSibling;
-        if (categoryTitle.classList.contains('collapsed')) {
-            optionsContainer.style.display = 'none';
+        const category = categoryTitle.getAttribute('data-category');
+        const isCollapsed = categoryTitle.classList.contains('collapsed');
+        
+        if (isCollapsed) {
+            // Abrir categoría
+            categoryTitle.classList.remove('collapsed');
+            const index = appState.collapsedCategories.indexOf(category);
+            if (index > -1) {
+                appState.collapsedCategories.splice(index, 1);
+            }
+            categoryTitle.setAttribute('aria-expanded', 'true');
+            categoryTitle.nextElementSibling.hidden = false;
         } else {
-            optionsContainer.style.display = appState.compactView ? 'flex' : 'grid';
+            // Cerrar categoría
+            categoryTitle.classList.add('collapsed');
+            if (!appState.collapsedCategories.includes(category)) {
+                appState.collapsedCategories.push(category);
+            }
+            categoryTitle.setAttribute('aria-expanded', 'false');
+            categoryTitle.nextElementSibling.hidden = true;
         }
+        
+        saveToLocalStorage();
     }
 
     // Seleccionar una opción
@@ -218,16 +306,19 @@ document.addEventListener('DOMContentLoaded', function() {
         // Deseleccionar otras opciones en la misma categoría
         document.querySelectorAll(`.option-item[data-category="${category}"], .option-card[data-category="${category}"]`).forEach(item => {
             item.classList.remove('selected');
+            item.setAttribute('aria-selected', 'false');
         });
         
         // Seleccionar la opción actual
         optionElement.classList.add('selected');
+        optionElement.setAttribute('aria-selected', 'true');
         
         // Actualizar el estado
         appState.selectedOptions[category] = { name, price };
         
-        // Actualizar la interfaz
+        // Actualizar la interfaz y notificación
         updateSelectedOptionsSummary();
+        showNotification(`Opción seleccionada: ${category} - ${name}`, 'success');
         saveToLocalStorage();
     }
 
@@ -237,6 +328,11 @@ document.addEventListener('DOMContentLoaded', function() {
         renderOptions();
         showNotification('Opciones reiniciadas correctamente', 'success');
         saveToLocalStorage();
+        
+        // Restablecer atributos ARIA
+        document.querySelectorAll('.option-item, .option-card').forEach(item => {
+            item.setAttribute('aria-selected', 'false');
+        });
     }
 
     // Actualizar el resumen de opciones seleccionadas
@@ -261,6 +357,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         domElements.selectedOptionsContainer.innerHTML = html;
         domElements.totalPriceElement.textContent = `$${total} CUP`;
+        domElements.totalPriceElement.setAttribute('aria-live', 'polite');
     }
 
     // Enviar por WhatsApp
@@ -274,6 +371,7 @@ document.addEventListener('DOMContentLoaded', function() {
         window.open(whatsappUrl, '_blank');
         
         showNotification('Resumen enviado al administrador por WhatsApp', 'success');
+        trackAction('whatsapp_send');
     }
 
     // Enviar por SMS
@@ -287,6 +385,7 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = smsUrl;
         
         showNotification('Resumen listo para enviar al administrador por SMS', 'success');
+        trackAction('sms_send');
     }
 
     // Copiar resumen
@@ -297,18 +396,23 @@ document.addEventListener('DOMContentLoaded', function() {
         
         navigator.clipboard.writeText(summary).then(() => {
             showNotification('Resumen copiado al portapapeles', 'success');
+            trackAction('copy_summary');
         }).catch(err => {
             showNotification('Error al copiar el resumen', 'error');
             console.error('Error al copiar:', err);
         });
     }
 
-    // Generar resumen del plan
+    // Generar resumen del plan mejorado
     function generateSummary() {
         let summary = `*Resumen del Plan Personalizado - Enviado al Administrador*\n\n`;
         summary += `*Datos del Cliente:*\n`;
         summary += `- Nombre: ${appState.formData.name}\n`;
         summary += `- Teléfono: ${appState.formData.phone}\n`;
+        
+        if (appState.formData.email) {
+            summary += `- Correo: ${appState.formData.email}\n`;
+        }
         
         if (appState.formData.affiliate) {
             summary += `- Afiliado: ${appState.formData.affiliate}\n`;
@@ -333,22 +437,28 @@ document.addEventListener('DOMContentLoaded', function() {
         summary += `1. Realiza el pago por Transfermóvil al número +5350369270\n`;
         summary += `2. Envía el comprobante de pago por WhatsApp al mismo número\n`;
         summary += `3. Tu servicio será activado en un plazo máximo de 24 horas\n\n`;
-        summary += `_Este es un resumen generado automáticamente. Para cualquier duda, contacta al administrador._`;
+        summary += `_Este resumen fue generado automáticamente el ${new Date().toLocaleDateString()} a las ${new Date().toLocaleTimeString()}._`;
         
         return summary;
     }
 
-    // Validar formulario
+    // Validar formulario mejorado
     function validateForm(skipPhoneCheck = false) {
         if (!appState.formData.name.trim()) {
             showNotification('Por favor ingresa tu nombre completo', 'error');
-            document.getElementById('client-name').focus();
+            domElements.clientNameInput.focus();
             return false;
         }
         
         if (!skipPhoneCheck && !appState.formData.phone.trim()) {
             showNotification('Por favor ingresa tu número de teléfono', 'error');
-            document.getElementById('client-phone').focus();
+            domElements.clientPhoneInput.focus();
+            return false;
+        }
+        
+        if (!skipPhoneCheck && !/^\d{8}$/.test(appState.formData.phone)) {
+            showNotification('El teléfono debe tener 8 dígitos numéricos', 'error');
+            domElements.clientPhoneInput.focus();
             return false;
         }
         
@@ -360,14 +470,26 @@ document.addEventListener('DOMContentLoaded', function() {
         return true;
     }
 
-    // Mostrar notificación
+    // Mostrar notificación mejorada
     function showNotification(message, type = 'success') {
         const notification = domElements.notification;
         const content = notification.querySelector('.notification-content');
         
+        // Configurar notificación
         notification.className = `notification ${type} show`;
+        notification.setAttribute('aria-live', 'assertive');
+        
+        // Configurar icono según tipo
+        let icon;
+        switch(type) {
+            case 'success': icon = 'check-circle'; break;
+            case 'error': icon = 'times-circle'; break;
+            case 'warning': icon = 'exclamation-circle'; break;
+            default: icon = 'info-circle';
+        }
+        
         content.innerHTML = `
-            <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'times-circle' : 'exclamation-circle'}"></i>
+            <i class="fas fa-${icon}" aria-hidden="true"></i>
             ${message}
         `;
         
@@ -377,32 +499,66 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
     }
 
-    // Guardar en localStorage
+    // Guardar en localStorage con manejo de errores
     function saveToLocalStorage() {
-        localStorage.setItem('planCustomizerState', JSON.stringify(appState));
+        try {
+            localStorage.setItem('planCustomizerState', JSON.stringify(appState));
+        } catch (e) {
+            console.error('Error al guardar en localStorage:', e);
+        }
     }
 
-    // Cargar desde localStorage
+    // Cargar desde localStorage con manejo de errores
     function loadFromLocalStorage() {
-        const savedState = localStorage.getItem('planCustomizerState');
-        if (savedState) {
-            appState = JSON.parse(savedState);
-            
-            // Restaurar formulario
-            if (appState.formData) {
-                document.getElementById('client-name').value = appState.formData.name || '';
-                document.getElementById('client-phone').value = appState.formData.phone || '';
-                document.getElementById('affiliate').value = appState.formData.affiliate || '';
+        try {
+            const savedState = localStorage.getItem('planCustomizerState');
+            if (savedState) {
+                const parsedState = JSON.parse(savedState);
+                
+                // Actualizar el estado manteniendo la estructura por defecto
+                if (parsedState.compactView !== undefined) {
+                    appState.compactView = parsedState.compactView;
+                }
+                
+                if (parsedState.selectedOptions) {
+                    appState.selectedOptions = parsedState.selectedOptions;
+                }
+                
+                if (parsedState.formData) {
+                    appState.formData = {
+                        ...appState.formData,
+                        ...parsedState.formData
+                    };
+                }
+                
+                if (parsedState.collapsedCategories) {
+                    appState.collapsedCategories = parsedState.collapsedCategories;
+                }
+                
+                // Restaurar formulario
+                domElements.clientNameInput.value = appState.formData.name || '';
+                domElements.clientPhoneInput.value = appState.formData.phone || '';
+                domElements.clientEmailInput.value = appState.formData.email || '';
+                domElements.affiliateInput.value = appState.formData.affiliate || '';
+                
+                // Actualizar UI
+                domElements.toggleViewBtn.innerHTML = `
+                    <i class="fas fa-${appState.compactView ? 'th-large' : 'list'}" aria-hidden="true"></i> 
+                    ${appState.compactView ? 'Vista de Cuadrícula' : 'Vista de Listado'}
+                `;
+                
+                renderOptions();
             }
-            
-            // Actualizar UI
-            domElements.toggleViewBtn.innerHTML = `
-                <i class="fas fa-${appState.compactView ? 'th-large' : 'list'}"></i> 
-                ${appState.compactView ? 'Vista de Cuadrícula' : 'Vista de Listado'}
-            `;
-            
-            renderOptions();
+        } catch (e) {
+            console.error('Error al cargar desde localStorage:', e);
+            localStorage.removeItem('planCustomizerState');
         }
+    }
+
+    // Trackear acciones (para posibles analytics)
+    function trackAction(action) {
+        console.log('Acción registrada:', action);
+        // Aquí podrías integrar Google Analytics u otro servicio
     }
 
     // Iniciar la aplicación
