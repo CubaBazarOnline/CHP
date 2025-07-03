@@ -3,10 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Configurador de planes web personalizados para tu negocio">
-    <link rel="icon" type="image/png" href="logo.png">
-    <meta name="theme-color" content="#6e48aa">
-    <title>CHP - Configurador de Planes Web Personalizados</title>
+    <meta name="description" content="Configurador de planes web profesionales para negocios en Cuba. Personaliza tu página web con las características que necesitas.">
+    <meta name="keywords" content="páginas web Cuba, diseño web, desarrollo web, hosting Cuba, sitio web profesional">
+    <meta name="author" content="CHP Web Solutions">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <meta property="og:title" content="Configurador de Planes Web - CHP">
+    <meta property="og:description" content="Crea tu plan web personalizado con las características que necesita tu negocio">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌐</text></svg>">
+    <title>CHP</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,23 +22,13 @@
 <body>
     <div class="container">
         <header>
-            <h1>Configura tu Plan Web Personalizado</h1>
-            <p class="subtitle">Selecciona las características que deseas incluir en tu página web. Cada opción tiene un costo asociado. Al finalizar, podrás enviar tu configuración directamente al administrador.</p>
+            <h1>Elige como deseas tu pagina web</h1>
+            <p class="subtitle">Selecciona las características que deseas incluir en tu página web profesional. Cada opción tiene un costo asociado. Al finalizar, podrás enviar tu configuración directamente al administrador.</p>
         </header>
         
         <div class="plan-builder">
             <section class="options-section" aria-labelledby="options-heading">
                 <h2 id="options-heading" class="sr-only">Opciones de configuración</h2>
-                
-                <div class="compact-controls">
-                    <button id="toggle-view" class="compact-btn" aria-label="Cambiar vista">
-                        <i class="fas fa-th-large" aria-hidden="true"></i> Vista de Cuadrícula
-                    </button>
-                    <button id="reset-options" class="compact-btn" aria-label="Reiniciar selecciones">
-                        <i class="fas fa-undo" aria-hidden="true"></i> Reiniciar
-                    </button>
-                </div>
-                
                 <div class="options-container" role="region" aria-live="polite">
                     <!-- Las opciones se generarán dinámicamente con JavaScript -->
                 </div>
@@ -40,9 +36,6 @@
             
             <section class="summary-section" aria-labelledby="summary-heading">
                 <h2 id="summary-heading" class="sr-only">Resumen del plan</h2>
-                
-                <div class="holographic-effect"></div>
-                <div class="holographic-effect"></div>
                 
                 <div class="summary-card">
                     <h2 class="section-title"><i class="fas fa-file-invoice-dollar" aria-hidden="true"></i> Resumen del Plan</h2>
@@ -54,34 +47,27 @@
                     </div>
                     
                     <div class="payment-info" role="note">
-                        <p><i class="fas fa-info-circle" aria-hidden="true"></i> El pago se realiza mediante Transfermóvil al número +53 50369270. Envía el comprobante por WhatsApp para activar tu servicio en 24-48 horas.</p>
+                        <p><i class="fas fa-info-circle" aria-hidden="true"></i> El pago se realiza mediante Transfermóvil. Envía el comprobante por WhatsApp para activar tu servicio.</p>
                     </div>
                     
                     <form id="client-form" class="client-form">
                         <div class="form-group">
-                            <label for="client-name"><i class="fas fa-user" aria-hidden="true"></i> Nombre Completo*</label>
-                            <input type="text" id="client-name" required placeholder="Ej: Juan Pérez" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ ]+" title="Solo letras y espacios" aria-required="true">
+                            <label for="client-name"><i class="fas fa-user" aria-hidden="true"></i>Nombre</label>
+                            <input type="text" id="client-name" required placeholder="Ej: Juan Pérez" aria-required="true">
                         </div>
                         <div class="form-group">
-                            <label for="client-phone"><i class="fas fa-phone" aria-hidden="true"></i> Teléfono*</label>
+                            <label for="client-phone"><i class="fas fa-phone" aria-hidden="true"></i>Teléfono</label>
                             <input type="tel" id="client-phone" required placeholder="Ej: 55512345" pattern="[0-9]{8}" title="8 dígitos numéricos" aria-required="true">
                         </div>
                         <div class="form-group">
-                            <label for="client-email"><i class="fas fa-envelope" aria-hidden="true"></i> Correo Electrónico (opcional)</label>
+                            <label for="client-email"><i class="fas fa-envelope" aria-hidden="true"></i>Gmail</label>
                             <input type="email" id="client-email" placeholder="Ej: usuario@ejemplo.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="affiliate"><i class="fas fa-users" aria-hidden="true"></i> Afiliado (opcional)</label>
-                            <input type="text" id="affiliate" placeholder="¿Quién te refirió?">
                         </div>
                     </form>
                     
                     <div class="action-buttons">
                         <button id="whatsapp-btn" class="action-btn whatsapp" aria-label="Enviar por WhatsApp">
-                            <i class="fab fa-whatsapp" aria-hidden="true"></i> Enviar al Administrador
-                        </button>
-                        <button id="sms-btn" class="action-btn sms" aria-label="Enviar por SMS">
-                            <i class="fas fa-sms" aria-hidden="true"></i> Enviar por SMS
+                            <i class="fab fa-whatsapp" aria-hidden="true"></i> Enviar Cotización
                         </button>
                         <button id="copy-btn" class="action-btn copy" aria-label="Copiar resumen">
                             <i class="fas fa-copy" aria-hidden="true"></i> Copiar Resumen
