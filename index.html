@@ -3,85 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Configurador de planes web profesionales para negocios en Cuba. Personaliza tu página web con las características que necesitas.">
-    <meta name="keywords" content="páginas web Cuba, diseño web, desarrollo web, hosting Cuba, sitio web profesional">
-    <meta name="author" content="CHP Web Solutions">
-    <meta name="robots" content="index, follow">
-    <meta name="googlebot" content="index, follow">
-    <meta property="og:title" content="Configurador de Planes Web - CHP">
-    <meta property="og:description" content="Crea tu plan web personalizado con las características que necesita tu negocio">
-    <meta property="og:type" content="website">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌐</text></svg>">
     <title>CHP</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%236e48aa' d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z'/></svg>">
+    <meta name="google-site-verification" content="KwYd-p4Sl1VlkdQmdyKKgwMpT7BsxFKygnGzibzNijQ" />
 </head>
 <body>
     <div class="container">
         <header>
             <h1>Elige como deseas tu pagina web</h1>
-            <p class="subtitle">Selecciona las características que deseas incluir en tu página web profesional. Cada opción tiene un costo asociado. Al finalizar, podrás enviar tu configuración directamente al administrador.</p>
         </header>
-        
         <div class="plan-builder">
-            <section class="options-section" aria-labelledby="options-heading">
-                <h2 id="options-heading" class="sr-only">Opciones de configuración</h2>
-                <div class="options-container" role="region" aria-live="polite">
-                    <!-- Las opciones se generarán dinámicamente con JavaScript -->
-                </div>
+            <section class="options-section">
+                <div class="options-container"></div>
             </section>
-            
-            <section class="summary-section" aria-labelledby="summary-heading">
-                <h2 id="summary-heading" class="sr-only">Resumen del plan</h2>
-                
+            <section class="summary-section">
                 <div class="summary-card">
-                    <h2 class="section-title"><i class="fas fa-file-invoice-dollar" aria-hidden="true"></i> Resumen del Plan</h2>
-                    
-                    <div class="total-price" aria-live="polite">$0 CUP</div>
-                    
-                    <div class="selected-options" role="region" aria-live="polite">
-                        <!-- Las opciones seleccionadas se generarán dinámicamente -->
-                    </div>
-                    
-                    <div class="payment-info" role="note">
-                        <p><i class="fas fa-info-circle" aria-hidden="true"></i> El pago se realiza mediante Transfermóvil. Envía el comprobante por WhatsApp para activar tu servicio.</p>
-                    </div>
-                    
-                    <form id="client-form" class="client-form">
-                        <div class="form-group">
-                            <label for="client-name"><i class="fas fa-user" aria-hidden="true"></i>Nombre</label>
-                            <input type="text" id="client-name" required placeholder="Ej: Juan Pérez" aria-required="true">
-                        </div>
-                        <div class="form-group">
-                            <label for="client-phone"><i class="fas fa-phone" aria-hidden="true"></i>Teléfono</label>
-                            <input type="tel" id="client-phone" required placeholder="Ej: 55512345" pattern="[0-9]{8}" title="8 dígitos numéricos" aria-required="true">
-                        </div>
-                        <div class="form-group">
-                            <label for="client-email"><i class="fas fa-envelope" aria-hidden="true"></i>Gmail</label>
-                            <input type="email" id="client-email" placeholder="Ej: usuario@ejemplo.com">
-                        </div>
-                    </form>
-                    
+                    <h2><i class="fas fa-file-invoice-dollar"></i> Resumen del Plan</h2>
+                    <div class="total-price">$0 CUP</div>
+                    <div class="selected-options"></div>
                     <div class="action-buttons">
-                        <button id="whatsapp-btn" class="action-btn whatsapp" aria-label="Enviar por WhatsApp">
-                            <i class="fab fa-whatsapp" aria-hidden="true"></i> Enviar Cotización
-                        </button>
-                        <button id="copy-btn" class="action-btn copy" aria-label="Copiar resumen">
-                            <i class="fas fa-copy" aria-hidden="true"></i> Copiar Resumen
-                        </button>
+                        <button id="whatsapp-btn" class="action-btn whatsapp"><i class="fab fa-whatsapp"></i> Enviar Cotización</button>
+                        <button id="copy-btn" class="action-btn copy"><i class="fas fa-copy"></i> Copiar Resumen</button>
                     </div>
                 </div>
             </section>
         </div>
+        <div id="notification" class="notification hidden"></div>
+        <script src="script.js" defer></script>
     </div>
-    
-    <div id="notification" class="notification hidden" role="alert" aria-live="assertive">
-        <div class="notification-content"></div>
-    </div>
-    
-    <script src="script.js" defer></script>
 </body>
 </html>
