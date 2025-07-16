@@ -1,45 +1,16 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const planOptions = {
-        'Duración': {
-            icon: 'calendar-alt',
-            options: [
-                { name: '1 Año', price: 6000 },
-                { name: '6 Meses', price: 3000 },
-                { name: '3 Meses', price: 1500 },
-                { name: '1 Mes', price: 500 }
-            ]
-        },
-        'Tipo de Sitio': {
-            icon: 'laptop-code',
-            options: [
-                { name: 'Tienda Online', price: 5000 },
-                { name: 'Servicio Local', price: 1500 }
-            ]
-        },
-        'Diseño': {
-            icon: 'paint-brush',
-            options: [
-                { name: 'Premium', price: 3000 },
-                { name: 'Profesional', price: 2000 },
-                { name: 'Estándar', price: 1000 }
-            ]
-        },
-        'Marca De Agua': {
-            icon: 'server',
-            options: [
-                { name: 'Con Marca', price: 0 },
-                { name: 'Sin Marca', price: 500 }
-            ]
-        },
-        'Soporte': {
-            icon: 'headset',
-            options: [
-                { name: 'Premium 24/7', price: 2500 },
-                { name: 'Estándar 12/5', price: 1500 },
-                { name: 'Básico', price: 500 }
-            ]
-        }
-    };
+document.addEventListener('DOMContentLoaded', async function() {
+    // Cargar datos desde el JSON
+    let planOptions = {};
+    try {
+        const response = await fetch('data.json');
+        if (!response.ok) throw new Error('Error al cargar los datos');
+        const data = await response.json();
+        planOptions = data.planOptions;
+    } catch (error) {
+        console.error('Error:', error);
+        showNotification('Error al cargar los servicios', 'error');
+        return;
+    }
 
     const appState = {
         selectedOptions: {}
@@ -57,21 +28,27 @@ document.addEventListener('DOMContentLoaded', function() {
     function init() {
         renderOptions();
         setupEventListeners();
-        selectCheapestOptions();
+        selectDefaultOptions();
     }
 
     function renderOptions() {
         let html = '';
         for (const [category, data] of Object.entries(planOptions)) {
-            html += `<div class="option-category">
+            html += `
+            <div class="option-category">
                 <h3><i class="fas fa-${data.icon}"></i> ${category}</h3>
-                <div class="options-list">${data.options.map(option => `
-                    <div class="option-item ${appState.selectedOptions[category]?.name === option.name ? 'selected' : ''}" 
-                        data-category="${category}" data-name="${option.name}" data-price="${option.price}">
+                <div class="options-list">
+                    ${data.options.map(option => `
+                    <div class="option-item 
+                        ${appState.selectedOptions[category]?.name === option.name ? 'selected' : ''}
+                        ${option.featured ? 'featured' : ''}"
+                        data-category="${category}" 
+                        data-name="${option.name}" 
+                        data-price="${option.price}">
                         <div class="option-item-content">
                             <div class="option-item-main">
                                 <h4>${option.name}</h4>
-                                <div class="option-price">$${option.price} CUP</div>
+                                <div class="option-price">$${option.price.toLocaleString()} CUP</div>
                             </div>
                         </div>
                     </div>`).join('')}
@@ -105,14 +82,13 @@ document.addEventListener('DOMContentLoaded', function() {
         updateSummary();
     }
 
-    function selectCheapestOptions() {
+    function selectDefaultOptions() {
         for (const [category, data] of Object.entries(planOptions)) {
-            const cheapestOption = data.options.reduce((prev, curr) => 
-                prev.price < curr.price ? prev : curr
-            );
+            // Seleccionar la opción destacada (featured) o la primera si no hay destacada
+            const defaultOption = data.options.find(opt => opt.featured) || data.options[0];
             appState.selectedOptions[category] = {
-                name: cheapestOption.name,
-                price: cheapestOption.price
+                name: defaultOption.name,
+                price: defaultOption.price
             };
         }
         renderOptions();
@@ -123,16 +99,17 @@ document.addEventListener('DOMContentLoaded', function() {
         let html = '';
         for (const [category, data] of Object.entries(planOptions)) {
             const selectedOption = appState.selectedOptions[category];
-            total += selectedOption?.price || 0;
-            if (selectedOption?.price > 0) {
-                html += `<div class="selected-option">
-                    <span>${category}:</span>
-                    <span>$${selectedOption.price} CUP</span>
+            if (selectedOption) {
+                total += selectedOption.price;
+                html += `
+                <div class="selected-option">
+                    <span>${category}: ${selectedOption.name}</span>
+                    <span>$${selectedOption.price.toLocaleString()} CUP</span>
                 </div>`;
             }
         }
         DOM.selectedOptionsContainer.innerHTML = html || '<p>No hay opciones seleccionadas</p>';
-        DOM.totalPriceElement.textContent = `$${total} CUP`;
+        DOM.totalPriceElement.textContent = `$${total.toLocaleString()} CUP`;
     }
 
     function sendViaWhatsApp(phoneNumber) {
@@ -143,27 +120,42 @@ document.addEventListener('DOMContentLoaded', function() {
     function copySummary() {
         navigator.clipboard.writeText(generateSummary()).then(() => {
             showNotification('Resumen copiado al portapapeles', 'success');
+        }).catch(err => {
+            console.error('Error al copiar:', err);
+            showNotification('Error al copiar', 'error');
         });
     }
 
     function generateSummary() {
         let summary = `*Resumen del Plan Web - CHP Solutions*\n\n*Opciones seleccionadas:*\n`;
         let total = 0;
+        
         for (const [category, data] of Object.entries(planOptions)) {
             const selectedOption = appState.selectedOptions[category];
-            total += selectedOption?.price || 0;
-            if (selectedOption?.price > 0) {
-                summary += `- ${category}: ${selectedOption.name} ($${selectedOption.price} CUP)\n`;
+            if (selectedOption) {
+                total += selectedOption.price;
+                summary += `➤ ${category}: ${selectedOption.name} - $${selectedOption.price.toLocaleString()} CUP\n`;
             }
         }
-        return summary + `\n*Total a pagar:* $${total} CUP`;
+        
+        summary += `\n*Total a pagar:* $${total.toLocaleString()} CUP\n\n`;
+        summary += `*¡Gracias por elegir CHP Solutions!*`;
+        
+        return summary;
     }
 
     function showNotification(message, type) {
         const notification = DOM.notification;
-        notification.className = `notification ${type} show`;
-        notification.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'times-circle'}"></i> ${message}`;
-        setTimeout(() => notification.classList.remove('show'), 5000);
+        notification.className = `notification ${type}`;
+        notification.innerHTML = `
+            <i class="fas fa-${type === 'success' ? 'check-circle' : 'times-circle'}"></i>
+            <span>${message}</span>
+        `;
+        notification.classList.add('show');
+        
+        setTimeout(() => {
+            notification.classList.remove('show');
+        }, 5000);
     }
 
     init();

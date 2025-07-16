@@ -1,0 +1,39 @@
+{
+    "planOptions": {
+        "Duración": {
+            "icon": "clock",
+            "options": [
+                { "name": "1 Año", "price": 12000, "featured": false },
+                { "name": "6 Meses", "price": 6000, "featured": false },
+                { "name": "3 Meses", "price": 3000, "featured": true },
+                { "name": "1 Mes", "price": 1500, "featured": false },
+                { "name": "1 Semana", "price": 500, "featured": false }
+            ]
+        },
+        "Tipo de Sitio": {
+            "icon": "globe",
+            "options": [
+                { "name": "Tienda Online", "price": 3000, "featured": true },
+                { "name": "Blog Profesional", "price": 1800, "featured": false },
+                { "name": "Landing Page", "price": 1200, "featured": false }
+            ]
+        },
+        "Diseño": {
+            "icon": "palette",
+            "options": [
+                { "name": "Premium", "price": 2500, "featured": true },
+                { "name": "Profesional", "price": 1800, "featured": false },
+                { "name": "Básico", "price": 800, "featured": false }
+            ]
+        },
+        "Extras": {
+            "icon": "bolt",
+            "options": [
+                { "name": "SEO Avanzado", "price": 2000, "featured": false },
+                { "name": "Hosting 1 año", "price": 1500, "featured": true },
+                { "name": "Dominio .com", "price": 1200, "featured": false },
+                { "name": "Mantenimiento", "price": 1000, "featured": false }
+            ]
+        }
+    }
+}

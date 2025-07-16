@@ -3,36 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHP</title>
+    <title>CHP Solutions | Constructor Web</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%236e48aa' d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z'/></svg>">
-    <meta name="google-site-verification" content="KwYd-p4Sl1VlkdQmdyKKgwMpT7BsxFKygnGzibzNijQ" />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="icon" href="chp.svg" type="image/svg+xml">
 </head>
 <body>
+    <div class="tech-background"></div>
     <div class="container">
         <header>
-            <h1>Elige como deseas tu pagina web</h1>
+            <div class="logo">
+                <img src="chp.svg" alt="CHP Logo">
+                <h1>CHP <span>Solutions</span></h1>
+            </div>
+            <h2>Constructor de Sitios Web</h2>
+            <p class="subtitle">Personaliza tu presencia online con nuestro configurador tecnológico</p>
         </header>
+        
         <div class="plan-builder">
             <section class="options-section">
                 <div class="options-container"></div>
             </section>
+            
             <section class="summary-section">
                 <div class="summary-card">
-                    <h2><i class="fas fa-file-invoice-dollar"></i> Resumen del Plan</h2>
+                    <div class="card-header">
+                        <i class="fas fa-file-invoice"></i>
+                        <h3>Resumen de tu Plan</h3>
+                    </div>
                     <div class="total-price">$0 CUP</div>
                     <div class="selected-options"></div>
                     <div class="action-buttons">
-                        <button id="whatsapp-btn" class="action-btn whatsapp"><i class="fab fa-whatsapp"></i> Enviar Cotización</button>
-                        <button id="copy-btn" class="action-btn copy"><i class="fas fa-copy"></i> Copiar Resumen</button>
+                        <button id="whatsapp-btn" class="action-btn whatsapp">
+                            <i class="fab fa-whatsapp"></i> Enviar por WhatsApp
+                        </button>
+                        <button id="copy-btn" class="action-btn copy">
+                            <i class="fas fa-copy"></i> Copiar Resumen
+                        </button>
                     </div>
                 </div>
             </section>
         </div>
-        <div id="notification" class="notification hidden"></div>
-        <script src="script.js" defer></script>
+        
+        <div id="notification" class="notification"></div>
     </div>
+
+    <script src="script.js" defer></script>
 </body>
 </html>
