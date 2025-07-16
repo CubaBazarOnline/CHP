@@ -1,0 +1,69 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradientes holográficos -->
+    <linearGradient id="hologramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8A2BE2" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#00BFFF" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#FFD700" stop-opacity="0.8"/>
+    </linearGradient>
+    
+    <radialGradient id="lightEffect" cx="50%" cy="50%" r="50%" fx="30%" fy="30%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    
+    <!-- Filtros para efectos 3D -->
+    <filter id="hologramGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    
+    <!-- Patrón de rejilla holográfica -->
+    <pattern id="gridPattern" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 0 0 L 20 0 M 0 0 L 0 20" stroke="#00BFFF" stroke-width="0.5" opacity="0.3"/>
+    </pattern>
+    
+    <!-- Animaciones -->
+    <animateTransform id="pulse" attributeName="transform" type="scale" values="1;1.05;1" dur="3s" repeatCount="indefinite"/>
+    <animate id="flicker" attributeName="opacity" values="0.7;0.9;0.8;0.95;0.7" dur="4s" repeatCount="indefinite"/>
+  </defs>
+  
+  <!-- Capa base holográfica -->
+  <circle cx="150" cy="150" r="120" fill="none" stroke="url(#hologramGradient)" stroke-width="10" stroke-dasharray="2,2" filter="url(#hologramGlow)">
+    <animate attributeName="stroke-dashoffset" from="0" to="40" dur="8s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- Efecto 3D con perspectiva -->
+  <g transform="rotate(-5 150 150)">
+    <!-- Anillo interior con parpadeo -->
+    <circle cx="150" cy="150" r="90" fill="none" stroke="#00BFFF" stroke-width="8" stroke-opacity="0.6" stroke-dasharray="5,5">
+      <animate attributeName="r" values="90;95;90" dur="5s" repeatCount="indefinite"/>
+      <animate attributeName="stroke-opacity" values="0.4;0.7;0.4" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    
+    <!-- Texto CHP con efecto 3D holográfico -->
+    <text x="150" y="150" font-family="'Orbitron', sans-serif" font-size="70" font-weight="bold" text-anchor="middle" dominant-baseline="middle" fill="url(#hologramGradient)" filter="url(#hologramGlow)" style="letter-spacing: 3px;">
+      CHP
+      <animate attributeName="fill-opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite"/>
+    </text>
+    
+    <!-- Efecto de profundidad 3D -->
+    <circle cx="150" cy="150" r="100" fill="none" stroke="url(#lightEffect)" stroke-width="30"/>
+  </g>
+  
+  <!-- Partículas holográficas flotantes -->
+  <circle cx="100" cy="100" r="3" fill="#FFD700">
+    <animateMotion path="M 0 0 Q 25 -30 50 0 Q 75 30 100 0" dur="10s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0;0.7;0" dur="7s" repeatCount="indefinite"/>
+  </circle>
+  
+  <circle cx="200" cy="200" r="2" fill="#8A2BE2">
+    <animateMotion path="M 0 0 Q -20 40 0 80 Q 20 120 0 160" dur="8s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0;0.5;0" dur="5s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- Efecto de luz central -->
+  <circle cx="150" cy="150" r="40" fill="url(#lightEffect)" opacity="0.5">
+    <animate attributeName="r" values="40;50;40" dur="6s" repeatCount="indefinite"/>
+  </circle>
+</svg>
