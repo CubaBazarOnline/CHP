@@ -14,14 +14,12 @@
             "icon": "globe",
             "options": [
                 { "name": "Tienda Online", "price": 3000, "featured": true },
-                { "name": "Blog Profesional", "price": 1800, "featured": false },
-                { "name": "Landing Page", "price": 1200, "featured": false }
+                { "name": "Servicio Profesional", "price": 1800, "featured": false }
             ]
         },
         "Diseño": {
             "icon": "palette",
             "options": [
-                { "name": "Premium", "price": 2500, "featured": true },
                 { "name": "Profesional", "price": 1800, "featured": false },
                 { "name": "Básico", "price": 800, "featured": false }
             ]
@@ -29,9 +27,8 @@
         "Extras": {
             "icon": "bolt",
             "options": [
-                { "name": "SEO Avanzado", "price": 2000, "featured": false },
-                { "name": "Hosting 1 año", "price": 1500, "featured": true },
-                { "name": "Dominio .com", "price": 1200, "featured": false },
+                { "name": "APK", "price": 2000, "featured": false },
+                { "name": "Multilenguaje", "price": 2000, "featured": true },
                 { "name": "Mantenimiento", "price": 1000, "featured": false }
             ]
         }
