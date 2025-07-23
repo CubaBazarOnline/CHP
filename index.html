@@ -3,52 +3,976 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#121212">
+    <meta name="description" content="Constructor de sitios web personalizados de CHP Solutions">
     <title>CHP Solutions | Constructor Web</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' fill='%23FFD700'>CHP</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="icon" href="chp.svg" type="image/svg+xml">
+    <style>
+      :root {
+        --primary: #6a0dad;
+        --primary-dark: #4b0082;
+        --accent: #ffd700;
+        --accent-dark: #ffc000;
+        --gray: #2d2d2d;
+        --gray-medium: #4a4a4a;
+        --gray-light: #e0e0e0;
+        --text: #ffffff;
+        --text-dark: #333333;
+        --success: #00c853;
+        --error: #ff3d00;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: #121212;
+        color: var(--text);
+        font-family: 'Roboto', sans-serif;
+        line-height: 1.6;
+        position: relative;
+        overflow-x: hidden;
+        min-height: 100vh;
+      }
+
+      .tech-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at 20% 30%, rgba(106, 13, 173, 0.15) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(255, 215, 0, 0.1) 0%, transparent 40%), linear-gradient(to bottom, #121212, #1a1a1a);
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1rem;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 2rem;
+        padding-top: 1rem;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .logo svg {
+        width: 50px;
+        height: 50px;
+      }
+
+      .logo h1 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: clamp(1.8rem, 5vw, 2.5rem);
+        font-weight: 700;
+        background: linear-gradient(90deg, var(--primary), var(--accent));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        letter-spacing: 1px;
+      }
+
+      header h2 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: clamp(1.3rem, 4vw, 1.8rem);
+        color: var(--accent);
+        margin-bottom: 0.5rem;
+      }
+
+      .subtitle {
+        color: var(--gray-light);
+        font-size: clamp(0.9rem, 3vw, 1.1rem);
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 0 1rem;
+      }
+
+      .plan-builder {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .options-section {
+        flex: 2;
+        min-width: 300px;
+      }
+
+      .summary-section {
+        flex: 1;
+        min-width: 300px;
+      }
+
+      .options-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .option-category {
+        background: rgba(45, 45, 45, 0.8);
+        border-radius: 12px;
+        padding: 1.5rem;
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--primary-dark);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease;
+      }
+
+      .option-category:hover {
+        transform: translateY(-5px);
+      }
+
+      .option-category h3 {
+        font-family: 'Orbitron', sans-serif;
+        color: var(--accent);
+        margin-bottom: 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        font-size: 1.2rem;
+      }
+
+      .options-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+      }
+
+      .option-item {
+        background: linear-gradient(145deg, #2d2d2d, #383838);
+        border-radius: 10px;
+        padding: 1.2rem;
+        cursor: pointer;
+        border: 1px solid var(--gray-medium);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .option-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 0;
+        background: var(--primary);
+        transition: height 0.3s ease;
+      }
+
+      .option-item:hover {
+        border-color: var(--primary);
+        transform: translateY(-3px);
+      }
+
+      .option-item:hover::before {
+        height: 100%;
+      }
+
+      .option-item.selected {
+        border-color: var(--accent);
+        background: linear-gradient(145deg, #383838, #2d2d2d);
+      }
+
+      .option-item.selected::before {
+        height: 100%;
+        background: var(--accent);
+      }
+
+      .option-item.featured {
+        border: 1px solid var(--accent);
+      }
+
+      .option-item.featured::after {
+        content: 'POPULAR';
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: var(--accent);
+        color: var(--text-dark);
+        font-size: 0.7rem;
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+        font-weight: bold;
+      }
+
+      .option-item-content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .option-item-main h4 {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        font-size: 1rem;
+      }
+
+      .option-description {
+        font-size: 0.85rem;
+        color: var(--gray-light);
+        opacity: 0.8;
+        line-height: 1.4;
+      }
+
+      .option-price {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--accent);
+        margin-top: 0.3rem;
+      }
+
+      .summary-card {
+        background: rgba(45, 45, 45, 0.8);
+        border-radius: 12px;
+        padding: 1.5rem;
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--primary-dark);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        position: sticky;
+        top: 1rem;
+      }
+
+      .card-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.2rem;
+      }
+
+      .card-header h3 {
+        font-family: 'Orbitron', sans-serif;
+        color: var(--accent);
+        font-size: 1.3rem;
+      }
+
+      .total-price {
+        font-size: clamp(1.8rem, 5vw, 2.5rem);
+        font-weight: 700;
+        margin: 1.2rem 0;
+        text-align: center;
+        font-family: 'Orbitron', sans-serif;
+        color: var(--accent);
+      }
+
+      .selected-options {
+        margin: 1.5rem 0;
+        max-height: 300px;
+        overflow-y: auto;
+        padding-right: 0.5rem;
+      }
+
+      .selected-options::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .selected-options::-webkit-scrollbar-thumb {
+        background-color: var(--primary);
+        border-radius: 3px;
+      }
+
+      .selected-option {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.8rem 0;
+        border-bottom: 1px solid var(--gray-medium);
+        font-size: 0.9rem;
+      }
+
+      .action-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+
+      .action-btn {
+        padding: 0.8rem;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+      }
+
+      .action-btn.whatsapp {
+        background: linear-gradient(135deg, #25D366, #128C7E);
+        color: white;
+      }
+
+      .action-btn.pdf {
+        background: linear-gradient(135deg, #ff3d00, #d50000);
+        color: white;
+      }
+
+      .action-btn.copy {
+        background: var(--gray-medium);
+        color: var(--text);
+        border: 1px solid var(--primary);
+      }
+
+      .action-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .action-btn:focus {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      .notification {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: var(--gray);
+        border-left: 4px solid var(--success);
+        border-radius: 8px;
+        padding: 1rem 1.5rem;
+        transform: translateX(150%);
+        transition: transform 0.3s ease;
+        max-width: 300px;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .notification.show {
+        transform: translateX(0);
+      }
+
+      .notification.error {
+        border-left-color: var(--error);
+      }
+
+      .pdf-preview {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 1001;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .pdf-preview.show {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .pdf-preview iframe {
+        width: 90%;
+        height: 80%;
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      }
+
+      .pdf-preview-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: var(--error);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 1rem;
+        }
+        
+        .plan-builder {
+          flex-direction: column;
+        }
+        
+        .summary-card {
+          position: static;
+          margin-top: 1rem;
+        }
+        
+        .options-list {
+          grid-template-columns: 1fr;
+        }
+        
+        .pdf-preview iframe {
+          width: 95%;
+          height: 70%;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .option-category {
+          padding: 1.2rem;
+        }
+        
+        .option-item {
+          padding: 1rem;
+        }
+        
+        .summary-card {
+          padding: 1.2rem;
+        }
+        
+        .action-btn {
+          padding: 0.8rem 0.6rem;
+          font-size: 0.85rem;
+        }
+      }
+
+      @media (hover: none) {
+        .option-category:hover {
+          transform: none;
+        }
+        
+        .option-item:hover {
+          transform: none;
+          border-color: var(--gray-medium);
+        }
+        
+        .option-item.selected:hover {
+          border-color: var(--accent);
+        }
+        
+        .action-btn:hover {
+          transform: none;
+          box-shadow: none;
+        }
+      }
+    </style>
 </head>
 <body>
-    <div class="tech-background"></div>
+    <div class="tech-background" aria-hidden="true"></div>
     <div class="container">
         <header>
             <div class="logo">
-                <img src="chp.svg" alt="CHP Logo">
-                <h1>CHP <span>Solutions</span></h1>
+                <svg width="50" height="50" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="hologramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#8A2BE2" stop-opacity="0.9"/>
+                      <stop offset="50%" stop-color="#00BFFF" stop-opacity="0.7"/>
+                      <stop offset="100%" stop-color="#FFD700" stop-opacity="0.9"/>
+                    </linearGradient>
+                    <radialGradient id="lightEffect" cx="50%" cy="50%" r="50%" fx="30%" fy="30%">
+                      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.4"/>
+                      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+                    </radialGradient>
+                    <filter id="hologramGlow" x="-30%" y="-30%" width="160%" height="160%">
+                      <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur"/>
+                      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+                      <feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 2 0"/>
+                    </filter>
+                    <pattern id="gridPattern" width="20" height="20" patternUnits="userSpaceOnUse">
+                      <path d="M 0 0 L 20 0 M 0 0 L 0 20" stroke="#00BFFF" stroke-width="0.5" opacity="0.3">
+                        <animate attributeName="stroke-opacity" values="0.2;0.4;0.2" dur="7s" repeatCount="indefinite"/>
+                      </path>
+                    </pattern>
+                  </defs>
+                  <g id="hologram" transform="scale(0.16)" transform-origin="center">
+                    <rect width="100%" height="100%" fill="url(#gridPattern)" opacity="0.5"/>
+                    <g class="ring" filter="url(#hologramGlow)">
+                      <circle cx="150" cy="150" r="120" fill="none" stroke="url(#hologramGradient)" stroke-width="10" stroke-dasharray="2,2">
+                        <animate attributeName="stroke-dashoffset" from="0" to="40" dur="8s" repeatCount="indefinite"/>
+                        <animateTransform attributeName="transform" type="rotate" from="0 150 150" to="360 150 150" dur="60s" repeatCount="indefinite"/>
+                      </circle>
+                    </g>
+                    <g class="hologram-3d" transform="rotate(-5 150 150)">
+                      <circle cx="150" cy="150" r="90" fill="none" stroke="#00BFFF" stroke-width="8" stroke-opacity="0.6" stroke-dasharray="5,5">
+                        <animate attributeName="r" values="90;95;90" dur="5s" repeatCount="indefinite"/>
+                        <animate attributeName="stroke-opacity" values="0.4;0.7;0.4" dur="3s" repeatCount="indefinite"/>
+                      </circle>
+                      <text x="150" y="150" font-family="Arial" font-size="70" font-weight="bold" text-anchor="middle" dominant-baseline="middle" fill="url(#hologramGradient)" filter="url(#hologramGlow)" style="letter-spacing: 3px;">
+                        CHP
+                        <animate attributeName="fill-opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite"/>
+                        <animateTransform attributeName="transform" type="translate" values="0,0;0,-5;0,0" dur="8s" repeatCount="indefinite"/>
+                      </text>
+                      <circle cx="150" cy="150" r="100" fill="none" stroke="url(#lightEffect)" stroke-width="30"/>
+                    </g>
+                  </g>
+                </svg>
+                <h1>CHP Solutions</h1>
             </div>
             <h2>Constructor de Sitios Web</h2>
             <p class="subtitle">Personaliza tu presencia online con nuestro configurador tecnológico</p>
         </header>
         
-        <div class="plan-builder">
-            <section class="options-section">
-                <div class="options-container"></div>
+        <main class="plan-builder">
+            <section class="options-section" aria-labelledby="options-title">
+                <h2 id="options-title" class="sr-only">Opciones de configuración</h2>
+                <div class="options-container" role="region"></div>
             </section>
             
-            <section class="summary-section">
-                <div class="summary-card">
+            <section class="summary-section" aria-labelledby="summary-title">
+                <div class="summary-card" role="complementary">
                     <div class="card-header">
-                        <i class="fas fa-file-invoice"></i>
-                        <h3>Resumen de tu Plan</h3>
+                        <i class="fas fa-file-invoice" aria-hidden="true"></i>
+                        <h3 id="summary-title">Resumen de tu Plan</h3>
                     </div>
-                    <div class="total-price">$0 CUP</div>
-                    <div class="selected-options"></div>
+                    <div class="total-price" aria-live="polite">$0 CUP</div>
+                    <div class="selected-options" role="list"></div>
                     <div class="action-buttons">
-                        <button id="whatsapp-btn" class="action-btn whatsapp">
-                            <i class="fab fa-whatsapp"></i> Enviar por WhatsApp
+                        <button id="whatsapp-btn" class="action-btn whatsapp" aria-label="Enviar resumen por WhatsApp">
+                            <i class="fab fa-whatsapp" aria-hidden="true"></i> Enviar por WhatsApp
                         </button>
-                        <button id="copy-btn" class="action-btn copy">
-                            <i class="fas fa-copy"></i> Copiar Resumen
+                        <button id="pdf-btn" class="action-btn pdf" aria-label="Generar PDF del resumen">
+                            <i class="fas fa-file-pdf" aria-hidden="true"></i> Generar PDF
+                        </button>
+                        <button id="copy-btn" class="action-btn copy" aria-label="Copiar resumen al portapapeles">
+                            <i class="fas fa-copy" aria-hidden="true"></i> Copiar Resumen
                         </button>
                     </div>
                 </div>
             </section>
-        </div>
+        </main>
         
-        <div id="notification" class="notification"></div>
+        <div id="notification" class="notification" role="alert" aria-live="assertive"></div>
     </div>
 
-    <script src="script.js" defer></script>
+    <div id="pdf-preview" class="pdf-preview" aria-modal="true" aria-hidden="true" aria-labelledby="pdf-preview-title">
+        <button id="pdf-close-btn" class="pdf-preview-close" aria-label="Cerrar vista previa del PDF">
+            <i class="fas fa-times" aria-hidden="true"></i>
+        </button>
+        <h2 id="pdf-preview-title" class="sr-only">Vista previa del PDF</h2>
+        <iframe id="pdf-iframe" title="Vista previa del PDF" loading="lazy"></iframe>
+        <button id="pdf-send-btn" class="action-btn whatsapp" style="margin-top: 20px;">
+            <i class="fab fa-whatsapp" aria-hidden="true"></i> Enviar resumen por WhatsApp
+        </button>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', async function() {
+        const appData = {
+          "planOptions": {
+            "Duración": {
+              "icon": "clock",
+              "options": [
+                {"name": "1 Año", "price": 4000, "featured": false, "description": "Plan anual con el mejor costo-beneficio"},
+                {"name": "6 Meses", "price": 2500, "featured": false, "description": "Plan semestral ideal para proyectos medianos"},
+                {"name": "3 Meses", "price": 1500, "featured": true, "description": "Plan trimestral más popular"},
+                {"name": "1 Mes", "price": 800, "featured": false, "description": "Plan mensual para pruebas o proyectos cortos"},
+                {"name": "1 Semana", "price": 400, "featured": false, "description": "Plan semanal para eventos o promociones"}
+              ]
+            },
+            "Tipo de Sitio": {
+              "icon": "globe",
+              "options": [
+                {"name": "Tienda Online", "price": 2000, "featured": true, "description": "Comercio electrónico completo con carrito de compras"},
+                {"name": "Servicio Profesional", "price": 1200, "featured": false, "description": "Sitio web para profesionales y servicios"}
+              ]
+            },
+            "Diseño": {
+              "icon": "palette",
+              "options": [
+                {"name": "Profesional", "price": 1200, "featured": false, "description": "Diseño premium con elementos personalizados"},
+                {"name": "Básico", "price": 600, "featured": false, "description": "Diseño funcional con plantillas modernas"}
+              ]
+            },
+            "Extras": {
+              "icon": "bolt",
+              "options": [
+                {"name": "APK", "price": 1500, "featured": false, "description": "Aplicación móvil para Android"},
+                {"name": "Multilenguaje", "price": 1200, "featured": true, "description": "Soporte para múltiples idiomas"},
+                {"name": "Mantenimiento", "price": 800, "featured": false, "description": "Soporte técnico mensual"},
+                {"name": "Promoción", "price": 800, "featured": false, "description": "Campaña inicial en redes sociales"}
+              ]
+            }
+          },
+          "companyInfo": {
+            "name": "CHP Solutions",
+            "phone": "+5350369270",
+            "email": "cubabazaronline@gmail.com",
+            "address": "La Habana, Cuba"
+          }
+        };
+
+        const appState = {
+          selectedOptions: {},
+          companyInfo: appData.companyInfo
+        };
+
+        const DOM = {
+          optionsContainer: document.querySelector('.options-container'),
+          selectedOptionsContainer: document.querySelector('.selected-options'),
+          totalPriceElement: document.querySelector('.total-price'),
+          whatsappBtn: document.getElementById('whatsapp-btn'),
+          pdfBtn: document.getElementById('pdf-btn'),
+          copyBtn: document.getElementById('copy-btn'),
+          notification: document.getElementById('notification'),
+          pdfPreview: document.getElementById('pdf-preview'),
+          pdfCloseBtn: document.getElementById('pdf-close-btn'),
+          pdfIframe: document.getElementById('pdf-iframe'),
+          pdfSendBtn: document.getElementById('pdf-send-btn')
+        };
+
+        function init() {
+          try {
+            loadHtml2Pdf();
+            renderOptions();
+            setupEventListeners();
+            selectDefaultOptions();
+          } catch (error) {
+            console.error('Error en inicialización:', error);
+            showNotification('Error al iniciar la aplicación', 'error');
+          }
+        }
+
+        function renderOptions() {
+          try {
+            let html = '';
+            for (const [category, data] of Object.entries(appData.planOptions)) {
+              if (!data.options || !Array.isArray(data.options)) {
+                console.error(`Datos incorrectos para la categoría: ${category}`);
+                continue;
+              }
+
+              html += `
+              <div class="option-category" role="group" aria-labelledby="${category}-title">
+                <h3 id="${category}-title"><i class="fas fa-${data.icon || 'cog'}" aria-hidden="true"></i> ${category}</h3>
+                <div class="options-list" role="listbox">
+                  ${data.options.map(option => `
+                  <div class="option-item 
+                    ${appState.selectedOptions[category]?.name === option.name ? 'selected' : ''}
+                    ${option.featured ? 'featured' : ''}"
+                    data-category="${category}" 
+                    data-name="${option.name}" 
+                    data-price="${option.price || 0}"
+                    data-description="${option.description || ''}"
+                    role="option"
+                    aria-selected="${appState.selectedOptions[category]?.name === option.name}"
+                    tabindex="0">
+                    <div class="option-item-content">
+                      <div class="option-item-main">
+                        <h4>${option.name}</h4>
+                        ${option.description ? `<p class="option-description">${option.description}</p>` : ''}
+                        <div class="option-price">$${(option.price || 0).toLocaleString()} CUP</div>
+                      </div>
+                    </div>
+                  </div>`).join('')}
+                </div>
+              </div>`;
+            }
+            DOM.optionsContainer.innerHTML = html;
+            updateSummary();
+          } catch (error) {
+            console.error('Error al renderizar opciones:', error);
+            showNotification('Error al mostrar las opciones', 'error');
+          }
+        }
+
+        function setupEventListeners() {
+          DOM.optionsContainer.addEventListener('click', (e) => {
+            const option = e.target.closest('.option-item');
+            if (option) selectOption(option);
+          });
+
+          DOM.optionsContainer.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              const option = e.target.closest('.option-item');
+              if (option) {
+                e.preventDefault();
+                selectOption(option);
+              }
+            }
+          });
+
+          DOM.whatsappBtn.addEventListener('click', () => sendViaWhatsApp());
+          DOM.pdfBtn.addEventListener('click', generateAndSendPDF);
+          DOM.copyBtn.addEventListener('click', copySummary);
+          DOM.pdfCloseBtn.addEventListener('click', closePDFPreview);
+          DOM.pdfSendBtn.addEventListener('click', () => sendViaWhatsApp(generateSummary() + '\n\n*Se ha generado un PDF con el presupuesto completo.*'));
+        }
+
+        function selectOption(optionElement) {
+          try {
+            const category = optionElement.dataset.category;
+            document.querySelectorAll(`.option-item[data-category="${category}"]`).forEach(item => {
+              item.classList.remove('selected');
+              item.setAttribute('aria-selected', 'false');
+            });
+            optionElement.classList.add('selected');
+            optionElement.setAttribute('aria-selected', 'true');
+            
+            appState.selectedOptions[category] = { 
+              name: optionElement.dataset.name, 
+              price: parseInt(optionElement.dataset.price) || 0,
+              description: optionElement.dataset.description
+            };
+            updateSummary();
+          } catch (error) {
+            console.error('Error al seleccionar opción:', error);
+          }
+        }
+
+        function selectDefaultOptions() {
+          try {
+            for (const [category, data] of Object.entries(appData.planOptions)) {
+              if (!data.options || data.options.length === 0) continue;
+              
+              const defaultOption = data.options.find(opt => opt.featured) || data.options[0];
+              appState.selectedOptions[category] = {
+                name: defaultOption.name,
+                price: defaultOption.price || 0,
+                description: defaultOption.description || ''
+              };
+            }
+            renderOptions();
+          } catch (error) {
+            console.error('Error al seleccionar opciones por defecto:', error);
+          }
+        }
+
+        function updateSummary() {
+          try {
+            let total = 0;
+            let html = '';
+            
+            for (const [category, selectedOption] of Object.entries(appState.selectedOptions)) {
+              if (!selectedOption) continue;
+              
+              total += selectedOption.price || 0;
+              html += `
+              <div class="selected-option" role="listitem">
+                <span>${category}: ${selectedOption.name}</span>
+                <span>$${(selectedOption.price || 0).toLocaleString()} CUP</span>
+              </div>`;
+            }
+            
+            DOM.selectedOptionsContainer.innerHTML = html || '<p>No hay opciones seleccionadas</p>';
+            DOM.totalPriceElement.textContent = `$${total.toLocaleString()} CUP`;
+          } catch (error) {
+            console.error('Error al actualizar resumen:', error);
+          }
+        }
+
+        function sendViaWhatsApp(customMessage = '') {
+          try {
+            const message = customMessage || generateSummary();
+            const phone = appState.companyInfo.phone.replace(/[^\d+]/g, '');
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+          } catch (error) {
+            console.error('Error al enviar por WhatsApp:', error);
+            showNotification('Error al enviar por WhatsApp', 'error');
+          }
+        }
+
+        function copySummary() {
+          try {
+            navigator.clipboard.writeText(generateSummary()).then(() => {
+              showNotification('Resumen copiado al portapapeles', 'success');
+            }).catch(err => {
+              console.error('Error al copiar:', err);
+              showNotification('Error al copiar', 'error');
+            });
+          } catch (error) {
+            console.error('Error en copySummary:', error);
+            showNotification('Error al copiar', 'error');
+          }
+        }
+
+        function generateSummary() {
+          try {
+            let total = 0;
+            let summary = `*Resumen del Plan Web - ${appState.companyInfo.name}*\n\n`;
+            summary += `*Opciones seleccionadas:*\n`;
+            
+            for (const [category, selectedOption] of Object.entries(appState.selectedOptions)) {
+              if (!selectedOption) continue;
+              
+              total += selectedOption.price || 0;
+              summary += `➤ ${category}: ${selectedOption.name} - $${(selectedOption.price || 0).toLocaleString()} CUP\n`;
+              if (selectedOption.description) {
+                summary += `   ↳ ${selectedOption.description}\n`;
+              }
+            }
+            
+            summary += `\n*Total a pagar:* $${total.toLocaleString()} CUP\n\n`;
+            summary += `*Información de contacto:*\n`;
+            summary += `📞 ${appState.companyInfo.phone}\n`;
+            summary += `✉️ ${appState.companyInfo.email}\n\n`;
+            summary += `*¡Gracias por elegir ${appState.companyInfo.name}!*`;
+            
+            return summary;
+          } catch (error) {
+            console.error('Error al generar resumen:', error);
+            return 'Error al generar el resumen';
+          }
+        }
+
+        async function generateAndSendPDF() {
+          try {
+            if (!window.html2pdf) {
+              throw new Error('html2pdf no está disponible');
+            }
+
+            showNotification('Generando PDF...', 'success');
+            
+            const pdfContent = `
+              <html>
+                <head>
+                  <style>
+                    body { font-family: Arial, sans-serif; color: #333; margin: 0; padding: 20px; }
+                    .header { text-align: center; margin-bottom: 20px; }
+                    .logo { font-size: 24px; font-weight: bold; color: #6a0dad; }
+                    .title { font-size: 20px; margin: 10px 0; color: #4b0082; }
+                    .subtitle { font-size: 14px; color: #666; }
+                    table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+                    th { background-color: #6a0dad; color: white; padding: 10px; text-align: left; }
+                    td { padding: 10px; border-bottom: 1px solid #ddd; }
+                    .total { font-weight: bold; font-size: 18px; text-align: right; margin-top: 20px; }
+                    .footer { margin-top: 30px; font-size: 12px; color: #666; text-align: center; }
+                  </style>
+                </head>
+                <body>
+                  <div class="header">
+                    <div class="logo">${appState.companyInfo.name}</div>
+                    <div class="title">Presupuesto de Sitio Web</div>
+                    <div class="subtitle">Fecha: ${new Date().toLocaleDateString()}</div>
+                  </div>
+                  
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Categoría</th>
+                        <th>Opción</th>
+                        <th>Descripción</th>
+                        <th>Precio (CUP)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      ${Object.entries(appState.selectedOptions).map(([category, option]) => `
+                        <tr>
+                          <td>${category}</td>
+                          <td>${option.name}</td>
+                          <td>${option.description || '-'}</td>
+                          <td>$${(option.price || 0).toLocaleString()}</td>
+                        </tr>
+                      `).join('')}
+                    </tbody>
+                  </table>
+                  
+                  <div class="total">
+                    Total a pagar: $${calculateTotal().toLocaleString()} CUP
+                  </div>
+                  
+                  <div class="footer">
+                    <p>${appState.companyInfo.name} | ${appState.companyInfo.address}</p>
+                    <p>Teléfono: ${appState.companyInfo.phone} | Email: ${appState.companyInfo.email}</p>
+                  </div>
+                </body>
+              </html>
+            `;
+            
+            const element = document.createElement('div');
+            element.innerHTML = pdfContent;
+            
+            const opt = {
+              margin: 10,
+              filename: `Presupuesto_${appState.companyInfo.name.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`,
+              image: { type: 'jpeg', quality: 0.98 },
+              html2canvas: { scale: 2 },
+              jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            
+            const pdf = await html2pdf().set(opt).from(element).toPdf().get('pdf');
+            const pdfBlob = pdf.output('blob');
+            const pdfUrl = URL.createObjectURL(pdfBlob);
+            
+            DOM.pdfIframe.src = pdfUrl;
+            DOM.pdfPreview.classList.add('show');
+            DOM.pdfPreview.setAttribute('aria-hidden', 'false');
+            
+          } catch (error) {
+            console.error('Error al generar PDF:', error);
+            showNotification('Error al generar PDF', 'error');
+          }
+        }
+
+        function calculateTotal() {
+          return Object.values(appState.selectedOptions).reduce((total, option) => total + (option.price || 0), 0);
+        }
+
+        function closePDFPreview() {
+          DOM.pdfPreview.classList.remove('show');
+          DOM.pdfPreview.setAttribute('aria-hidden', 'true');
+          DOM.pdfIframe.src = '';
+        }
+
+        function showNotification(message, type = 'success') {
+          try {
+            const notification = DOM.notification;
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+              <i class="fas fa-${type === 'success' ? 'check-circle' : 'times-circle'}" aria-hidden="true"></i>
+              <span>${message}</span>
+            `;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+              notification.classList.remove('show');
+            }, 5000);
+          } catch (error) {
+            console.error('Error al mostrar notificación:', error);
+          }
+        }
+
+        function loadHtml2Pdf() {
+          return new Promise((resolve, reject) => {
+            if (window.html2pdf) return resolve();
+            
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+            script.integrity = 'sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==';
+            script.crossOrigin = 'anonymous';
+            script.onload = () => {
+              if (window.html2pdf) {
+                resolve();
+              } else {
+                reject(new Error('html2pdf no se cargó correctamente'));
+              }
+            };
+            script.onerror = () => reject(new Error('Error al cargar html2pdf'));
+            document.head.appendChild(script);
+          });
+        }
+
+        init();
+      });
+    </script>
 </body>
 </html>
