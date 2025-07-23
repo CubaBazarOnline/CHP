@@ -1,36 +1,33 @@
 {
-    "planOptions": {
-        "Duración": {
-            "icon": "clock",
-            "options": [
-                { "name": "1 Año", "price": 12000, "featured": false },
-                { "name": "6 Meses", "price": 6000, "featured": false },
-                { "name": "3 Meses", "price": 3000, "featured": true },
-                { "name": "1 Mes", "price": 1500, "featured": false },
-                { "name": "1 Semana", "price": 500, "featured": false }
-            ]
-        },
-        "Tipo de Sitio": {
-            "icon": "globe",
-            "options": [
-                { "name": "Tienda Online", "price": 3000, "featured": true },
-                { "name": "Servicio Profesional", "price": 1800, "featured": false }
-            ]
-        },
-        "Diseño": {
-            "icon": "palette",
-            "options": [
-                { "name": "Profesional", "price": 1800, "featured": false },
-                { "name": "Básico", "price": 800, "featured": false }
-            ]
-        },
-        "Extras": {
-            "icon": "bolt",
-            "options": [
-                { "name": "APK", "price": 2000, "featured": false },
-                { "name": "Multilenguaje", "price": 2000, "featured": true },
-                { "name": "Mantenimiento", "price": 1000, "featured": false }
-            ]
-        }
-    }
+"planOptions":{
+"Duración":{
+"icon":"clock",
+"options":[
+{"name":"1 Año","price":4000,"featured":false},
+{"name":"6 Meses","price":2500,"featured":false},
+{"name":"3 Meses","price":1500,"featured":true},
+{"name":"1 Mes","price":800,"featured":false},
+{"name":"1 Semana","price":400,"featured":false}
+]},
+"Tipo de Sitio":{
+"icon":"globe",
+"options":[
+{"name":"Tienda Online","price":2000,"featured":true},
+{"name":"Servicio Profesional","price":1200,"featured":false}
+]},
+"Diseño":{
+"icon":"palette",
+"options":[
+{"name":"Profesional","price":1200,"featured":false},
+{"name":"Básico","price":600,"featured":false}
+]},
+"Extras":{
+"icon":"bolt",
+"options":[
+{"name":"APK","price":1500,"featured":false},
+{"name":"Multilenguaje","price":1200,"featured":true},
+{"name":"Mantenimiento","price":800,"featured":false},
+{"name":"Promoción","price":800,"featured":false}
+]}
+}
 }
